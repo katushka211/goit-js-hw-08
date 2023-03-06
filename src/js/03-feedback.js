@@ -23,7 +23,7 @@ function onTextareaInput(event) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
-function populateTextarea(event) {
+function populateTextarea() {
   let savedMessage = localStorage.getItem(STORAGE_KEY);
   if (savedMessage) {
     savedMessage = JSON.parse(savedMessage);
