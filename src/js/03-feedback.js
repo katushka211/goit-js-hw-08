@@ -17,9 +17,6 @@ function onFormSubmit(event) {
   console.log({ email: emailEl.value, message: textareaEl.value });
   event.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY);
-  if (emailEl.value === '' || textareaEl.value === '') {
-    return prompt('Заповніть всі поля');
-  }
 }
 
 function onTextareaInput(event) {
@@ -37,6 +34,9 @@ function populateTextarea() {
     }
     if (savedMessage.message) {
       textareaEl.value = savedMessage.message;
+    } else {
+      emailEl.value = '';
+      textareaEl.value = '';
     }
   }
 }
