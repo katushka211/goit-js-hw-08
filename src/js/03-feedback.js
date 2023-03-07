@@ -12,15 +12,20 @@ formEl.addEventListener('input', throttle(onTextareaInput, 500));
 
 function onFormSubmit(event) {
   event.preventDefault();
+  if (emailEl.value === '' || textareaEl.value === '') {
+    return alert('Заповніть всі поля!!!');
+  }
   console.log({ email: emailEl.value, message: textareaEl.value });
   event.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY);
 }
 
 function onTextareaInput(event) {
-  formData[event.target.name] = event.target.value;
-  console.log(formData);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  if (event.target.value.trim() !== '') {
+    formData[event.target.name] = event.target.value;
+    console.log(formData);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }
 }
 
 function populateTextarea() {
