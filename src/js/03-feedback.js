@@ -3,7 +3,7 @@ const STORAGE_KEY = 'feedback-form-state';
 
 const formEl = document.querySelector('.feedback-form');
 const emailEl = document.querySelector('.feedback-form input');
-const textareaEl = document.querySelector('.feedback-form textarea');
+const messageEl = document.querySelector('.feedback-form textarea');
 let formData = {};
 populateTextarea();
 
@@ -12,28 +12,27 @@ formEl.addEventListener('input', throttle(onTextareaInput, 500));
 
 function onFormSubmit(event) {
   event.preventDefault();
-  if (emailEl.value === '' || textareaEl.value === '') {
+  if (emailEl.value === '' || messageEl.value === '') {
     return alert('Заповніть всі поля!!!');
   }
-  console.log({ email: emailEl.value, message: textareaEl.value });
+  console.log({ email: emailEl.value, message: messageEl.value });
   event.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY);
+  formData = {};
 }
 
-function onTextareaInput(event) {
-  if (event.target.value.trim() !== '') {
-    formData[event.target.name] = event.target.value;
-    console.log(formData);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-  }
+function onTextareaInput() {
+  formData = { email: emailEl.value, message: messageEl.value };
+  console.log(formData);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
 function populateTextarea() {
-  const savedMessage = localStorage.getItem(STORAGE_KEY);
-  if (savedMessage) {
-    const parsedFormData = JSON.parse(savedMessage);
+  const savedData = localStorage.getItem(STORAGE_KEY);
+  if (savedData) {
+    const parsedFormData = JSON.parse(savedData);
     emailEl.value = parsedFormData.email || '';
-    textareaEl.value = parsedFormData.message || '';
+    messageEl.value = parsedFormData.message || '';
     formData = parsedFormData;
   }
 }
